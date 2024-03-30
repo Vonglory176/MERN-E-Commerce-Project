@@ -1,10 +1,13 @@
-import React, { useState } from 'react' //Typing "rafc" will create a 'r.eact a.rrow f.unctional c.omponent'
+import React, { useContext, useState } from 'react' //Typing "rafc" will create a 'r.eact a.rrow f.unctional c.omponent'
 import logo from '../Assets/logo.png'
 import cart_icon from '../Assets/cart_icon.png'
 import { Link } from 'react-router-dom'
+import { ShopContext } from '../../Context/ShopContext'
 
 const Navbar = () => {
     const [menu, setMenu] = useState("shop")
+    const {getTotalCartItems} = useContext(ShopContext)
+
     const categories = ["shop", "men", "women", "kids"]
 
   return (
@@ -37,7 +40,7 @@ const Navbar = () => {
         <div className="nav-login-cart">
             <Link to="/login"><button>Login</button></Link>
             <Link to="/cart"><img src={cart_icon} alt="" /></Link>
-            <div className="nav-cart-count">0</div>
+            <div className="nav-cart-count">{getTotalCartItems()}</div>
         </div>
     </div>
   )
