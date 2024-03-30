@@ -3,7 +3,7 @@ import { ShopContext } from '../../Context/ShopContext'
 import remove_icon from '../Assets/cart_cross_icon.png'
 
 const CartItems = () => {
-    const {all_product, cartItems, addToCart, removeCart} = useContext(ShopContext)
+    const {all_product, cartItems, addToCart, removeCart, getTotalCartAmount} = useContext(ShopContext)
   return (
     <div className='cartitems'>
         <div className="cartitems-format-main">
@@ -19,13 +19,16 @@ const CartItems = () => {
         {all_product.map((item) => {
             if (cartItems[item.id] > 0) {
                 return (
-                    <div className="cartitems-format">
-                        <img src={item.image} alt="" className="carticon-product-icon" />
-                        <p>{item.name}</p>
-                        <p>${item.new_price}</p>
-                        <button className='cartitems-quantity'>{cartItems[item.id]}</button>
-                        <p>${item.new_price * cartItems[item.id]}</p>
-                        <img className='cartitems-remove-icon' src={remove_icon} onClick={() => removeCart(item.id)} alt="" /> {/* cartItems.id */}
+                    <div>
+                        <div className="cartitems-format cartitems-format-main">
+                            <img src={item.image} alt="" className="carticon-product-icon" />
+                            <p>{item.name}</p>
+                            <p>${item.new_price}</p>
+                            <button className='cartitems-quantity'>{cartItems[item.id]}</button>
+                            <p>${item.new_price * cartItems[item.id]}</p>
+                            <img className='cartitems-remove-icon' src={remove_icon} onClick={() => removeCart(item.id)} alt="" /> {/* cartItems.id */}
+                        </div>
+                        <hr />
                     </div>
                 )
             }
@@ -37,7 +40,7 @@ const CartItems = () => {
                 <div>
                     <div className="cartitems-total-item">
                         <p>Subtotal</p>
-                        <p>${0}</p> {/* Needs context value */}
+                        <p>${getTotalCartAmount()}</p> {/* Needs context value */}
                     </div>
                     <hr />
 
@@ -49,7 +52,7 @@ const CartItems = () => {
 
                     <div className="cartitems-total-item">
                         <h3>Total</h3>
-                        <h3>${0}</h3> {/* Needs context value */}
+                        <h3>${getTotalCartAmount()}</h3> {/* Needs context value */}
                     </div>
 
                     <button>PROCEED TO CHECKOUT</button>
