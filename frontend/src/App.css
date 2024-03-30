@@ -79,6 +79,33 @@
   color: white;
 }
 
+@media (max-width: 1280px) {
+  .navbar {
+    padding: 12px 50px;
+  }
+  .nav-logo img {
+    width: 40px;
+  }
+  .nav-logo p {
+    font-size: 25px;
+  }
+  .nav-menu {
+    gap: 30px;
+    font-size: 16px;
+  }
+  .nav-login-cart {
+    gap: 30px;
+  }
+  .nav-login-cart button {
+    width: 120px;
+    height: 45px;
+    font-size: 16px;
+  }
+  .nav-cart-count {
+    margin-left: -40px;
+    font-size: 12px;
+  }
+}
 .hero {
   height: 100vh;
   background: linear-gradient(180deg, #fde1ff, rgba(225, 255, 234, 0.1333333333), 60%);
@@ -644,6 +671,14 @@
   font-size: 16px;
   width: 330px;
   height: 50px;
+}
+.cartitems-promobox button {
+  width: 170px;
+  height: 58px;
+  font-size: 16px;
+  background: black;
+  color: white;
+  cursor: pointer;
 }
 
 .shopcategory-banner {
