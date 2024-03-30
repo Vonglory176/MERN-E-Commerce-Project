@@ -1,0 +1,19 @@
+@import "./Components/Navbar/Navbar";
+@import "./Components/Sidebar/Sidebar";
+@import "./Components/AddProduct/AddProduct";
+@import "./Components/ListProduct/ListProduct";
+
+@import "./Pages/Admin/Admin";
+
+*, #root {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f6f6f6;
+    height: 100vh;
+}
