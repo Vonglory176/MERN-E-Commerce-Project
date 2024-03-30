@@ -25,11 +25,32 @@ const ShopContextProvider = (props) => {
         setCartItems(prev => ({...prev, [itemId]: prev[itemId] - 1})) // Negating from the selected item        
     }
 
-    useEffect(() => {
-        console.log(cartItems)
-    }, [cartItems])
+    // useEffect(() => {
+    //     console.log(cartItems)
+    // }, [cartItems])
 
-    const contextValue = { all_product, cartItems, addToCart, removeCart }
+    const getTotalCartAmount = () => {
+        let totalAmount = 0
+
+        for (const item in cartItems) { // The use of const is correct for defining item in the loop because item will be a new binding in each iteration of the loop.
+            if (cartItems[item] > 0) {
+                let itemInfo = all_product.find((product) => product.id === Number(item))
+                totalAmount += itemInfo.new_price * cartItems[item]
+            }
+        }
+        return totalAmount // Shouldn't this be outside the loop?
+    }
+
+    const getTotalCartItems = () => {
+        let totalItems = 0
+
+        for (const item in cartItems) {
+            if (cartItems[item] > 0) totalItems += cartItems[item]
+        }
+        return totalItems
+    }
+
+    const contextValue = { all_product, cartItems, addToCart, removeCart, getTotalCartAmount, getTotalCartItems }
 
     // Returning the Provider component from ShopContext. This component accepts a `value` prop to be passed to consuming components that are descendants of this Provider.
     return (
