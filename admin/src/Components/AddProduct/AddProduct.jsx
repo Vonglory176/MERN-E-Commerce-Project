@@ -51,8 +51,9 @@ const AddProduct = () => {
         },
         body: JSON.stringify(product)
       })
-      .then((res) => {res.json()})
+      .then((res) => res.json())
       .then((data) => {
+        console.log(data)
         alert(data.success? "Product Added" : "Product upload failed") 
       })
     }
