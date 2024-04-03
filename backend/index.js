@@ -127,6 +127,79 @@ app.get('/allproducts', async (req,res) => {
     console.log("All products fetched from database")
 })
 
+// Get New Collection Products
+app.get('/newcollections', async (req, res) => {
+    let products = await Product.find({})
+    let newCollection = products.slice(1).slice(-8) // Grabbed eight of the most recently added products
+    console.log("NewCollection Fetched")
+    res.send(newCollection)
+})
+
+// USER USE (MongoDB) ------------
+// User schema
+const Users = mongoose.model('Users', {
+    name: {
+        type: String,
+    },
+    email: {
+        type: String,
+        unique: true, // No duplicate values allowed in DB
+    },
+    password: {
+        type: String,
+    },
+    cartData: {
+        type: Object,
+    },
+    date: {
+        type: Number,
+        default: Date.now,
+    }
+})
+
+// User Registration API
+app.post('/signup', async (req, res) => {
+    //Duplicate email check
+    let check = await Users.findOne({email: req.body.email})
+    if (check) {
+        return res.status(400).json({success: false, error: "Existing user found with the same email"})
+    }
+
+    let cart = {} // Generating empty cart data
+    for (let i = 0; i < 300; i++) cart[i] = 0
+
+    const user = new Users({
+        name: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        cartData: cart,
+    })
+    await user.save() //Saving new user to MongoDB
+
+    // Creates a user object & JWT token w/user id
+    const data = {user:{id: user.id}}
+    const token = jwt.sign(data, 'secret_ecom')
+    res.json({success: true, token: token})
+})
+
+// User Login API
+app.post('/login', async (req,res) => {
+    let user = await Users.findOne({email: req.body.email})
+
+    if (user) {
+        const passCompare = req.body.password === user.password // Comparing login-input/user passwords
+
+        if (passCompare) { 
+            // Creates a user object & JWT token w/user id
+            const data = {user: {id: user.id}}
+            const token = jwt.sign(data, 'secret_ecom')
+            res.json({success: true, token: token})
+        }
+        else res.json({success: false, error: "Password is incorrect"}) // Wrong email/password
+    }
+    else res.json({success: false, error: "No user with this email could be found"}) // Wrong email/password
+})
+
 // For server information use via terminal
 app.listen(port, (error) => {
     if (!error) console.log("Server is running on port " + port)
